@@ -1,9 +1,15 @@
 package cn.edu.shu.xj.ser.controller;
 
 
-import org.springframework.web.bind.annotation.RequestMapping;
+import cn.edu.shu.xj.ser.entity.Admin;
+import cn.edu.shu.xj.ser.entity.User;
+import cn.edu.shu.xj.ser.service.impl.AdminService;
+import cn.edu.shu.xj.ser.service.impl.UserService;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.web.bind.annotation.*;
+import cn.edu.shu.xj.ser.response.Result;
 
-import org.springframework.web.bind.annotation.RestController;
+import javax.annotation.Resource;
 
 /**
  * <p>
@@ -16,6 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+
+
 
 }
 

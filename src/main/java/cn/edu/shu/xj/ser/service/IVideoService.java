@@ -1,6 +1,6 @@
 package cn.edu.shu.xj.ser.service;
 
-import cn.edu.shu.xj.ser.entity.Log;
+import cn.edu.shu.xj.ser.entity.Video;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Zhangjz
  * @since 2022-03-01
  */
-public interface LogService extends IService<Log> {
+public interface IVideoService extends IService<Video> {
 
 }

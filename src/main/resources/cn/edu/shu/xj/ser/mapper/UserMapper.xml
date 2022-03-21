@@ -2,4 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.edu.shu.xj.ser.mapper.UserMapper">
 
+    <!-- 通用查询映射结果 -->
+    <resultMap id="userResultMap" type="cn.edu.shu.xj.ser.entity.User">
+        <result column="userId" property="userId"/>
+        <result column="userEmail" property="userEmail"/>
+        <result column="userName" property="userName"/>
+        <result column="userPassword" property="userPassword"/>
+        <result column="userPhone" property="userPhone"/>
+        <result column="userNumVideo" property="userNumVideo"/>
+        <result column="userLikeNumVideo" property="userLikeNumVideo"/>
+        <result column="userCreatedTime" property="userCreatedTime"/>
+        <result column="userRecentTime" property="userRecentTime"/>
+        <result column="userSignature" property="userSignature"/>
+    </resultMap>
+
+    <select id="findUserById" resultType="cn.edu.shu.xj.ser.entity.User">
+        select *
+        from user
+        where userId=#{userId}
+    </select>
 </mapper>

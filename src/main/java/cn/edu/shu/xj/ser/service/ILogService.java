@@ -1,6 +1,6 @@
 package cn.edu.shu.xj.ser.service;
 
-import cn.edu.shu.xj.ser.entity.Sort;
+import cn.edu.shu.xj.ser.entity.Log;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Zhangjz
  * @since 2022-03-01
  */
-public interface SortService extends IService<Sort> {
+public interface ILogService extends IService<Log> {
 
 }

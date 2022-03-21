@@ -2,8 +2,9 @@ package cn.edu.shu.xj.ser.service.impl;
 
 import cn.edu.shu.xj.ser.entity.Agree;
 import cn.edu.shu.xj.ser.mapper.AgreeMapper;
-import cn.edu.shu.xj.ser.service.AgreeService;
+import cn.edu.shu.xj.ser.service.IAgreeService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,6 +16,9 @@ import org.springframework.stereotype.Service;
  * @since 2022-03-01
  */
 @Service
-public class AgreeServiceImpl extends ServiceImpl<AgreeMapper, Agree> implements AgreeService {
+public class AgreeService extends ServiceImpl<AgreeMapper, Agree> implements IAgreeService {
+
+    @Autowired
+    AgreeMapper agreeMapper;
 
 }

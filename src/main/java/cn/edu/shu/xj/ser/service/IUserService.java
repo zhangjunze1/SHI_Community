@@ -11,6 +11,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Zhangjz
  * @since 2022-03-01
  */
-public interface UserService extends IService<User> {
+public interface IUserService extends IService<User> {
+
+    /**
+     * 根据user_id查找User实体类
+     * @param userId
+     * @return
+     */
+    User findUserById(Long userId);
 
 }
