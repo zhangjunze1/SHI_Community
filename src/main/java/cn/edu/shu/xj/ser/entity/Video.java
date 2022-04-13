@@ -4,6 +4,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,6 +27,7 @@ public class Video implements Serializable {
     private static final long serialVersionUID = 1L;
 
       @TableId("videoId")
+      @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long videoId;
 
     @TableField("videoSub")
@@ -36,8 +39,8 @@ public class Video implements Serializable {
     @TableField("videoSort")
     private String videoSort;
 
-    @TableField("videoUserId")
-    private Long videoUserId;
+    @TableField("videoUserName")
+    private String videoUserName;
 
     @TableField("videoState")
     private String videoState;
@@ -55,7 +58,7 @@ public class Video implements Serializable {
     private String videoUrl;
 
     @TableField("videoTime")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date videoTime;
-
 
 }

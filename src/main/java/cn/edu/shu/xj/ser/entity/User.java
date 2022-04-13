@@ -4,6 +4,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -25,6 +27,7 @@ public class User implements Serializable {
     private static final long serialVersionUID = 1L;
 
       @TableId("userId")
+      @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long userId;
 
     @TableField("userEmail")
@@ -46,9 +49,11 @@ public class User implements Serializable {
     private Integer userLikeNumVideo;
 
     @TableField("userCreatedTime")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date userCreatedTime;
 
     @TableField("userRecentTime")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date userRecentTime;
 
     @TableField("userSignature")

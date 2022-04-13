@@ -3,6 +3,8 @@ package cn.edu.shu.xj.ser.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -24,6 +26,7 @@ public class Admin implements Serializable {
     private static final long serialVersionUID = 1L;
 
       @TableId("adminId")
+      @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Long adminId;
 
     @TableField("adminName")

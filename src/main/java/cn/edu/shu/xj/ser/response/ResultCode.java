@@ -13,8 +13,11 @@ public enum ResultCode implements CustomizeResultCode{
     NO_USER(3002,"该学号尚未有用户注册"),
     ADMIN_ACCOUNT_NOT_EXIST(3003, "管理员账号不存在"),
     ADMIN_PASSWORD_ERROR(3004, "管理员密码错误"),
-
-
+    DIFFERENT_PASSWORD(3005,"用户注册输入两次密码不相同"),
+    USER_ACCOUNT_EXIST(3006,"用户名已存在"),
+    SORT_EXIST(3007,"分类名字已存在"),
+    USER_NO_ACCOUNT_EXIST(3008,"用户名不存在"),
+    USER_PASSWORD_ERROR(3009,"用户名密码错误"),
     UNKNOW_SERVER_ERROR(2001, "未知异常,请联系管理员!");
 
 

@@ -1,13 +1,17 @@
 package cn.edu.shu.xj.ser.config;
 
 
+import cn.edu.shu.xj.ser.entity.Video;
 import cn.edu.shu.xj.ser.response.Result;
 import cn.edu.shu.xj.ser.service.IUserService;
+import cn.edu.shu.xj.ser.service.IVideoService;
+import cn.edu.shu.xj.ser.service.impl.VideoService;
 import com.aliyun.oss.OSS;
 import com.aliyun.oss.OSSClientBuilder;
 import com.aliyun.oss.model.OSSObject;
 import com.aliyun.oss.model.PutObjectResult;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +32,12 @@ public class oss {
     String endpoint = "oss-cn-hangzhou.aliyuncs.com";
     String accessKeyId = "LTAI5tBji2779oNNiitohXS7";
     String accessKeySecret = "UOM079PXLVttYZCeLTuKaUq5hRXT2w";
-    String bucketName = "zhangjz-tgam-example";
+    String bucketName = "zhangjz-community-example";
 
-    String subPath = "test/";
-    String activityPath = "activity/";
-    String carPath = "car/";
+    String subPath = "video/";
     OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
     String picture_name = "";
+    String video_name = "";
     long business_id;
     long shangping_id;
 
@@ -42,78 +45,12 @@ public class oss {
     @Autowired
     IUserService IUserService;
 
-    @ApiOperation(value = "上传文件测试", notes = "请记得上传时加上参数 file !")
-    @PostMapping(value = "/oss/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public PutObjectResult uploadTest(@RequestParam("file") MultipartFile file ) throws IOException {
-        IdWorker.getIdStr();
-        return ossClient.putObject(bucketName, subPath +"1231.jpg", file.getInputStream());
-    }
+    @Autowired
+    VideoService videoService;
 
-    @ApiOperation(value = "上传商家相关信息")
-    @GetMapping(value = "/oss/uploadFile/information")
-    public boolean uploadTes11(@RequestParam String picture_name, long business_id ) {
-        this.picture_name = picture_name;
-        this.business_id = business_id;
-        return true;
-    }
-
-    @ApiOperation(value = "上传商品相关信息")
-    @PostMapping(value = "/oss/uploadFile/shangping_information")
-    public boolean uploadTes111(@RequestParam String picture_name, long shangping_id ) {
-        this.picture_name = picture_name;
-        this.shangping_id = shangping_id;
-        System.out.println(shangping_id);
-        return true;
-    }
-
-
-//    @Autowired
-//    Ibusiness_Serive ibusiness_serive;
-//    @ApiOperation(value = "上传商家图片", notes = "请记得上传时加上参数 file !")
-//    @PostMapping(value = "/oss/business/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public boolean uploadTest1(@RequestParam("file") MultipartFile file) throws IOException {
-//
-//        IdWorker.getIdStr();
-//        ossClient.putObject(bucketName, subPath + picture_name, file.getInputStream());//上传服务器
-//
-//        Date expiration = new Date(System.currentTimeMillis() +3600*24*365);//时差2000S左右
-//        String url = ossClient.generatePresignedUrl(bucketName, subPath + picture_name, expiration).toString();//从服务器获取图片url
-//        OSSObject ossObject = ossClient.getObject(bucketName, subPath + picture_name);
-//        ossObject.getObjectContent();
-//
-//        business_infomation business = new business_infomation();
-//        UpdateWrapper<business_infomation> a =  new UpdateWrapper<business_infomation>();
-//        business.setBusinessId(business_id);
-//        business.setBusinessPic(url);
-//
-//        ibusiness_serive.update(business,a.eq("business_id",business.getBusinessId()));//将url上传到数据库
-//        return true;
-//    }
-
-//    @Autowired
-//    Ishangping_Serive ishangping_serive;
-//    @ApiOperation(value = "上传商品图片", notes = "请记得上传时加上参数 file !")
-//    @PostMapping(value = "/oss/shangping/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public boolean uploadTest2(@RequestParam("file") MultipartFile file ) throws IOException {
-//        IdWorker.getIdStr();
-//        ossClient.putObject(bucketName, subPath + picture_name, file.getInputStream());//上传服务器
-//
-//        Date expiration = new Date(System.currentTimeMillis() +3600*24*365);//时差2000S左右
-//        String url = ossClient.generatePresignedUrl(bucketName, subPath + picture_name, expiration).toString();//从服务器获取图片url
-//        OSSObject ossObject = ossClient.getObject(bucketName, subPath + picture_name);
-//        ossObject.getObjectContent();
-//
-//        shangping_information shangping = new shangping_information();
-//        UpdateWrapper<shangping_information> a =  new UpdateWrapper<shangping_information>();
-//        shangping.setShangpingId(shangping_id);
-//        shangping.setShangpingPic(url);
-//        ishangping_serive.update(shangping,a.eq("shangping_id",shangping.getShangpingId()));//将url上传到数据库
-//        return true;
-//    }
-
-    @ApiOperation(value = "上传活动报名照片", notes = "请记得上传时加上参数 file !")
-    @PostMapping(value = "/activityPre/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public Result uploadActivityPic(@RequestParam("file") MultipartFile file ) throws IOException {
+    @ApiOperation(value = "上传视频文件", notes = "请记得上传时加上参数 file !")
+    @PostMapping(value = "/uploadVideoFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public Result uploadVideoFile(@RequestParam("file") MultipartFile file ) throws IOException {
         //随机生成照片url
         String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Random random=new Random();
@@ -122,18 +59,53 @@ public class oss {
             int number=random.nextInt(62);
             sb.append(str.charAt(number));
         }
-        picture_name=sb.toString()+".jpg";
+        video_name=sb.toString()+".mp4";
 
         IdWorker.getIdStr();
-        ossClient.putObject(bucketName, activityPath + picture_name, file.getInputStream());//上传服务器
+        ossClient.putObject(bucketName, subPath + video_name, file.getInputStream());//上传服务器
 
         Date expiration = new Date(System.currentTimeMillis() +3600*24*365);//时差2000S左右
-        String url = ossClient.generatePresignedUrl(bucketName, activityPath + picture_name, expiration).toString();//从服务器获取图片url
-        OSSObject ossObject = ossClient.getObject(bucketName, activityPath + picture_name);
+        String url = ossClient.generatePresignedUrl(bucketName, subPath + video_name, expiration).toString();//从服务器获取图片url
+        OSSObject ossObject = ossClient.getObject(bucketName, subPath + video_name);
         ossObject.getObjectContent();
 
         return Result.ok().data("url",url);
     }
+
+    @ApiOperation(value = "上传文件测试", notes = "请记得上传时加上参数 file !")
+    @PostMapping(value = "/oss/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public PutObjectResult uploadTest(@RequestParam("file") MultipartFile file ) throws IOException {
+
+        System.out.println("sdasda");
+        IdWorker.getIdStr();
+        return ossClient.putObject(bucketName, subPath +"123.mp4", file.getInputStream());
+    }
+
+
+
+//    @ApiOperation(value = "上传活动报名照片", notes = "请记得上传时加上参数 file !")
+//    @PostMapping(value = "/activityPre/uploadFile", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public Result uploadActivityPic(@RequestParam("file") MultipartFile file ) throws IOException {
+//        //随机生成照片url
+//        String str="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+//        Random random=new Random();
+//        StringBuffer sb=new StringBuffer();
+//        for(int i=0;i<10;i++){
+//            int number=random.nextInt(62);
+//            sb.append(str.charAt(number));
+//        }
+//        picture_name=sb.toString()+".jpg";
+//
+//        IdWorker.getIdStr();
+//        ossClient.putObject(bucketName, activityPath + picture_name, file.getInputStream());//上传服务器
+//
+//        Date expiration = new Date(System.currentTimeMillis() +3600*24*365);//时差2000S左右
+//        String url = ossClient.generatePresignedUrl(bucketName, activityPath + picture_name, expiration).toString();//从服务器获取图片url
+//        OSSObject ossObject = ossClient.getObject(bucketName, activityPath + picture_name);
+//        ossObject.getObjectContent();
+//
+//        return Result.ok().data("url",url);
+//    }
 
 //    @ApiOperation(value = "获取添加用户车辆", notes = "请记得上传时加上参数 file !")
 //    @PostMapping(value = "/oss/addUserCars", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)

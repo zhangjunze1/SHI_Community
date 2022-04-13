@@ -21,4 +21,10 @@
         from user
         where userId=#{userId}
     </select>
+
+    <select id="searchUserByName" resultType="cn.edu.shu.xj.ser.entity.User">
+        select *
+        from user
+        where userName=#{name}
+    </select>
 </mapper>
